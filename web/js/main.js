@@ -51,24 +51,23 @@ btn_call2.addEventListener("click", async () => {
 
 const btn_call3 = document.getElementById("btn-call3");
 const api_calls3 = document.getElementById("api-calls3");
+const id_edit = document.getElementById("id_edit");
+const anio_edit = document.getElementById("anio_edit");
 
 
 btn_call3.addEventListener("click", async () => {
     try {
-        const response = await fetch("http://localhost:3000/libros_registro", {
-            method: "POST",
+        const response = await fetch(`${url}/books/${id_edit.value}`, {
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                titulo: tituloInput.value,
-                autor: autorInput.value,
-                anio: parseInt(anioInput.value)
+                anio: parseInt(anio_edit.value)
             })
         });
         const data = await response.json();
-        const libroRegistrado =  data.libro_recibido;
-        api_calls3.innerHTML = `Libro registrado: ${libroRegistrado.titulo} por ${libroRegistrado.autor} (${libroRegistrado.anio})`;
+        api_calls3.innerHTML = data.message;
     } catch (error) {
         console.error("Error en la tercera llamada:", error);
     }
