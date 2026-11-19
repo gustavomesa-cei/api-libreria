@@ -14,10 +14,10 @@ async def crear_libro(datos: BookInput):
     try:
         with conn.cursor() as cursor:
             cursor.execute(
-                "INSERT INTO libros (titulo, autor, anio) VALUES (?, ?, ?)",
+                "INSERT INTO libros (titulo, autor, anio) VALUES (%s, %s, %s) RETURNING id",
                 (datos.titulo, datos.autor, datos.anio)
             )
-            nuevo_id = cursor.lastrowid 
+            nuevo_id = cursor.fetchone()["id"]
         conn.commit()
     finally:
         conn.close()
@@ -41,13 +41,13 @@ def actualizar_anio_libro(libro_id: int, datos: BookUpdate):
     conn = obtener_conexion()
     try:
         with conn.cursor() as cursor:
-            cursor.execute("SELECT 1 FROM libros WHERE id = ?", (libro_id,))
+            cursor.execute("SELECT 1 FROM libros WHERE id = %s", (libro_id,))
             if cursor.fetchone() is None:
                 conn.close()
                 raise HTTPException(status_code=404, detail="El libro solicitado no existe.")
                 
             
-            cursor.execute("UPDATE libros SET anio = ? WHERE id = ?", (datos.anio, libro_id))
+            cursor.execute("UPDATE libros SET anio = %s WHERE id = %s", (datos.anio, libro_id))
         conn.commit()
     finally:
         conn.close()

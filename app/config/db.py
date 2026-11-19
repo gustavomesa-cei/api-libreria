@@ -1,14 +1,17 @@
 import psycopg2
 from psycopg2.extras import RealDictCursor
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
 def obtener_conexion():
     conexion = psycopg2.connect(
-        dbname="neondb",
-        user="neondb_owner",
-        password="npg_57svCDhealJR",
-        host="ep-summer-darkness-be84rbv6-pooler.c-9.us-east-2.aws.neon.tech",
-        port="5432",
+        dbname=os.getenv("DB_NAME"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        host=os.getenv("DB_HOST"),
+        port=os.getenv("DB_PORT"),
         cursor_factory=RealDictCursor, 
     )
     return conexion
@@ -20,7 +23,7 @@ def inicializar_bd():
         with conn.cursor() as cursor:
             cursor.execute("""
                 CREATE TABLE IF NOT EXISTS libros (
-                    id INTEGER PRIMARY KEY,
+                    id SERIAL PRIMARY KEY,
                     titulo TEXT NOT NULL,
                     autor TEXT NOT NULL,
                     anio INTEGER
