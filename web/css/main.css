@@ -52,6 +52,13 @@ section {
     margin-bottom: 1rem;
 }
 
+.api-call-result {
+    padding: 0.5rem;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
+}
+
 input[type="text"], input[type="number"] {
     padding: 0.5rem;
     border: 1px solid #ccc;

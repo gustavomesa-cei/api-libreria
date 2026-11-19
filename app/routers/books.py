@@ -22,7 +22,7 @@ async def crear_libro(datos: BookInput):
     finally:
         conn.close()
 
-    return {"mensaje": "Libro guardado con éxito", "id": nuevo_id}
+    return {"mensaje": "El libro con id " + str(nuevo_id) + " guardado con éxito", "id": nuevo_id}
 
 @router.get("/")
 def listar_libros():

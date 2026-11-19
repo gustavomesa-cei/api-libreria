@@ -8,7 +8,10 @@ btn_call1.addEventListener("click", async () => {
     try {
         const response = await fetch(`${url}/books`);
         const data = await response.json();
-        api_calls1.innerHTML = `${data.mensaje}`;
+        api_calls1.innerHTML = "";
+        data.forEach(libro => {
+            api_calls1.innerHTML += `<div class="api-call-result">${libro.titulo} por ${libro.autor} en el año ${libro.anio}<br></div>`;
+        });
     } catch (error) {
         console.error("Error en la primera llamada:", error);
     }
@@ -19,12 +22,26 @@ btn_call1.addEventListener("click", async () => {
 
 const btn_call2 = document.getElementById("btn-call2");
 const api_calls2 = document.getElementById("api-calls2");
+const tituloInput = document.getElementById("titulo");
+const autorInput = document.getElementById("autor");
+const anioInput = document.getElementById("anio");
 
 btn_call2.addEventListener("click", async () => {
     try {
-        const response = await fetch("http://localhost:3000/estado");
+        const response = await fetch(`${url}/books`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                titulo: tituloInput.value,
+                autor: autorInput.value,
+                anio: parseInt(anioInput.value)
+            })
+        });
         const data = await response.json();
-        api_calls2.innerHTML = `Estado del servidor: ${data.status}<br>${data.servidor}`;
+        console.log(data);
+        api_calls2.innerHTML = data.message;
     } catch (error) {
         console.error("Error en la segunda llamada:", error);
     }
@@ -34,9 +51,7 @@ btn_call2.addEventListener("click", async () => {
 
 const btn_call3 = document.getElementById("btn-call3");
 const api_calls3 = document.getElementById("api-calls3");
-const tituloInput = document.getElementById("titulo");
-const autorInput = document.getElementById("autor");
-const anioInput = document.getElementById("anio");
+
 
 btn_call3.addEventListener("click", async () => {
     try {
