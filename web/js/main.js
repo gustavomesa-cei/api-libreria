@@ -10,7 +10,7 @@ btn_call1.addEventListener("click", async () => {
         const data = await response.json();
         api_calls1.innerHTML = "";
         data.forEach(libro => {
-            api_calls1.innerHTML += `<div class="api-call-result">${libro.titulo} por ${libro.autor} en el año ${libro.anio}<br></div>`;
+            api_calls1.innerHTML += `<div class="api-call-result">id: ${libro.id} - ${libro.titulo} por ${libro.autor} en el año ${libro.anio}<br></div>`;
         });
     } catch (error) {
         console.error("Error en la primera llamada:", error);
