@@ -1,2 +1,10 @@
+[project]
+name = "mi-api-fastapi"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi",
+]
+
 [tool.vercel]
 entrypoint = "main:app"
