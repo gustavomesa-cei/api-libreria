@@ -60,7 +60,7 @@ def borrar_archivo_del_sistema(libro_id: int):
     
     try:
         with conn.cursor() as cursor:
-            cursor.execute("DELETE FROM libros WHERE id = ?", (libro_id,))
+            cursor.execute("DELETE FROM libros WHERE id = %s", (libro_id,))
             
             # Inspeccionamos si la orden afectó a alguna fila en el mundo real
             if cursor.rowcount == 0:
