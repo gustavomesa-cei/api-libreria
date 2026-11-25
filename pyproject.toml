@@ -5,7 +5,8 @@ requires-python = ">=3.11"
 dependencies = [
     "fastapi",
     "psycopg2-binary",
-    "bcrypt"
+    "bcrypt",
+    "PyJWT"
 ]
 
 [tool.vercel]
