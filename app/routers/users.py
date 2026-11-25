@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta, timezone
 from fastapi import APIRouter, HTTPException
 from app.config.db import obtener_conexion
 from app.models.users import UserInput
@@ -34,7 +35,11 @@ async def crear_usuario(datos: UserInput):
     finally:
         conn.close()
 
-    return jwt.encode(nuevo_usuario, os.getenv("SECRET_KEY"), algorithm="HS256")
+    payload = nuevo_usuario.copy()
+    expiracion = datetime.now(timezone.utc) + timedelta(seconds=30)
+    payload.update({"exp": expiracion})
+
+    return jwt.encode(payload, os.getenv("SECRET_KEY"), algorithm="HS256")
      
 
 @router.post("/login")
@@ -58,4 +63,8 @@ async def login_usuario(datos: UserInput):
     finally:
         conn.close()
 
-    return jwt.encode(usuario, os.getenv("SECRET_KEY"), algorithm="HS256")
+    payload = usuario.copy()
+    expiracion = datetime.now(timezone.utc) + timedelta(seconds=30)
+    payload.update({"exp": expiracion})
+
+    return jwt.encode(payload, os.getenv("SECRET_KEY"), algorithm="HS256")

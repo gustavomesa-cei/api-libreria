@@ -1,4 +1,36 @@
 const url = "https://api-libreria-gamma.vercel.app";
+// 0º llamada
+
+const btn_call0 = document.getElementById("btn-call0");
+const api_calls0 = document.getElementById("api-calls0");
+const usuarioInput = document.getElementById("usuario");
+const claveInput = document.getElementById("clave");
+
+btn_call0.addEventListener("click", async () => {
+    try {
+        const response = await fetch(`${url}/users/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nombre: usuarioInput.value,
+                clave: claveInput.value
+            })
+        });
+        const data = await response.json();
+        if (response.ok) {
+            localStorage.setItem("token", data);
+            api_calls0.innerHTML = "Inicio de sesión exitoso. Token almacenado en localStorage.";
+        } else {
+            api_calls0.innerHTML = `Error: ${data.detail}`;
+        }
+    } catch (error) {
+        console.error("Error en la llamada de inicio de sesión:", error);
+    }
+});
+
+
 // 1º llamada
 
 const btn_call1 = document.getElementById("btn-call1");
@@ -10,7 +42,7 @@ btn_call1.addEventListener("click", async () => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tYnJlIjoic3RyaW5nIn0.FwTBuVwsQOv9kjHxoJMGBJk4OX9poDCd3keT0BP5tn4`
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
             }
         });
         const data = await response.json();
@@ -37,7 +69,8 @@ btn_call2.addEventListener("click", async () => {
         const response = await fetch(`${url}/books`, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
             },
             body: JSON.stringify({
                 titulo: tituloInput.value,
@@ -66,7 +99,8 @@ btn_call3.addEventListener("click", async () => {
         const response = await fetch(`${url}/books/${id_edit.value}`, {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
             },
             body: JSON.stringify({
                 anio: parseInt(anio_edit.value)
@@ -90,7 +124,8 @@ btn_call4.addEventListener("click", async () => {
         const response = await fetch(`${url}/books/${delete_id.value}`, {
             method: "DELETE",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
             },
         });
         const data = await response.json();
