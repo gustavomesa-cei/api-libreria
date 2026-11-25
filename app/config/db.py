@@ -32,6 +32,14 @@ def inicializar_bd():
                     anio INTEGER
                 )
             """)
+
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS usuario (
+                    id SERIAL PRIMARY KEY,
+                    nombre TEXT NOT NULL,
+                    clave TEXT NOT NULL
+                )
+            """)
         conn.commit()  # Guarda los cambios en la base de datos
     finally:
         conn.close()  # Cierra la conexión siempre al terminar
