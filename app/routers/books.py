@@ -8,9 +8,9 @@ router = APIRouter(
 )
 
 @router.post("/")
-async def crear_libro(datos: BookInput, request: Request):
+async def crear_libro(datos: BookInput):
     conn = obtener_conexion()
-    print("Datos recibidos:", request.state.user)  # Imprime los datos recibidos en la consola para depuración
+
     try:
         with conn.cursor() as cursor:
             cursor.execute(
@@ -25,7 +25,7 @@ async def crear_libro(datos: BookInput, request: Request):
     return {"mensaje": "El libro con id " + str(nuevo_id) + " guardado con éxito", "id": nuevo_id}
 
 @router.get("/")
-def listar_libros():
+def listar_libros(request: Request):
     conn = obtener_conexion()
     try:
         with conn.cursor() as cursor:
@@ -34,7 +34,7 @@ def listar_libros():
     finally:
         conn.close()
 
-    return resultados
+    return request.state.user  # Retornamos la información del usuario autenticado junto con los libros
 
 @router.put("/{libro_id}")
 def actualizar_anio_libro(libro_id: int, datos: BookUpdate):
