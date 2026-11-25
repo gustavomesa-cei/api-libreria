@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from app.config.db import obtener_conexion
 from app.models.books import BookInput, BookUpdate
 
@@ -8,9 +8,9 @@ router = APIRouter(
 )
 
 @router.post("/")
-async def crear_libro(datos: BookInput):
+async def crear_libro(datos: BookInput, request: Request):
     conn = obtener_conexion()
-
+    print("Datos recibidos:", request.state.user)  # Imprime los datos recibidos en la consola para depuración
     try:
         with conn.cursor() as cursor:
             cursor.execute(

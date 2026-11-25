@@ -6,7 +6,13 @@ const api_calls1 = document.getElementById("api-calls1");
 
 btn_call1.addEventListener("click", async () => {
     try {
-        const response = await fetch(`${url}/books`);
+        const response = await fetch(`${url}/books`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tYnJlIjoic3RyaW5nIn0.FwTBuVwsQOv9kjHxoJMGBJk4OX9poDCd3keT0BP5tn4`
+            }
+        });
         const data = await response.json();
         api_calls1.innerHTML = "";
         data.forEach(libro => {
