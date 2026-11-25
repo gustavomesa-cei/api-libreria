@@ -25,7 +25,7 @@ async def crear_libro(datos: BookInput):
     return {"mensaje": "El libro con id " + str(nuevo_id) + " guardado con éxito", "id": nuevo_id}
 
 @router.get("/")
-def listar_libros(request: Request):
+def listar_libros():
     conn = obtener_conexion()
     try:
         with conn.cursor() as cursor:
@@ -34,7 +34,7 @@ def listar_libros(request: Request):
     finally:
         conn.close()
 
-    return request.state.user  # Retornamos la información del usuario autenticado junto con los libros
+    return resultados
 
 @router.put("/{libro_id}")
 def actualizar_anio_libro(libro_id: int, datos: BookUpdate):
