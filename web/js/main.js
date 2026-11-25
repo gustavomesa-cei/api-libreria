@@ -1,4 +1,36 @@
 const url = "https://api-libreria-gamma.vercel.app";
+
+// 01º llamada
+
+const btn_call01 = document.getElementById("btn-call01");
+const api_calls01 = document.getElementById("api-calls01");
+const usuarioCreateInput = document.getElementById("usuario_create");
+const claveCreateInput = document.getElementById("clave_create");
+
+btn_call01.addEventListener("click", async () => {
+    try {
+        const response = await fetch(`${url}/users/register`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nombre: usuarioCreateInput.value,
+                clave: claveCreateInput.value
+            })
+        });
+        const data = await response.json();
+        if (response.ok) {
+            localStorage.setItem("token", data);
+            api_calls01.innerHTML = "Usuario registrado exitosamente.";
+        } else {
+            api_calls01.innerHTML = `Error: ${data.detail}`;
+        }
+    } catch (error) {
+        console.error("Error en la llamada de registro:", error);
+    }
+});
+
 // 0º llamada
 
 const btn_call0 = document.getElementById("btn-call0");
@@ -20,8 +52,8 @@ btn_call0.addEventListener("click", async () => {
         });
         const data = await response.json();
         if (response.ok) {
-            sessionStorage.setItem("token", data);
-            api_calls0.innerHTML = "Inicio de sesión exitoso. Token almacenado en sessionStorage.";
+            localStorage.setItem("token", data);
+            api_calls0.innerHTML = "Inicio de sesión exitoso. Token almacenado en localStorage.";
         } else {
             api_calls0.innerHTML = `Error: ${data.detail}`;
         }
@@ -42,7 +74,7 @@ btn_call1.addEventListener("click", async () => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
             }
         });
         const data = await response.json();
@@ -51,7 +83,7 @@ btn_call1.addEventListener("click", async () => {
             api_calls1.innerHTML += `<div class="api-call-result">id: ${libro.id} - ${libro.titulo} por ${libro.autor} en el año ${libro.anio}<br></div>`;
         });
     } catch (error) {
-        console.error("Error en la primera llamada:", error);
+        api_calls1.innerHTML =  "Error al obtener los libros. Asegúrate de haber iniciado sesión correctamente.";
     }
 });
 
@@ -70,7 +102,7 @@ btn_call2.addEventListener("click", async () => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
             },
             body: JSON.stringify({
                 titulo: tituloInput.value,
@@ -82,7 +114,7 @@ btn_call2.addEventListener("click", async () => {
         console.log(data);
         api_calls2.innerHTML = data.mensaje;
     } catch (error) {
-        console.error("Error en la segunda llamada:", error);
+        api_calls2.innerHTML = "Error al agregar el libro. Asegúrate de haber iniciado sesión correctamente.";
     }
 });
 
@@ -100,7 +132,7 @@ btn_call3.addEventListener("click", async () => {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
             },
             body: JSON.stringify({
                 anio: parseInt(anio_edit.value)
@@ -109,7 +141,7 @@ btn_call3.addEventListener("click", async () => {
         const data = await response.json();
         api_calls3.innerHTML = data.mensaje;
     } catch (error) {
-        console.error("Error en la tercera llamada:", error);
+        api_calls3.innerHTML = "Error al actualizar el libro. Asegúrate de haber iniciado sesión correctamente.";
     }
 });
 
@@ -125,12 +157,12 @@ btn_call4.addEventListener("click", async () => {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
             },
         });
         const data = await response.json();
         api_calls4.innerHTML = data.mensaje;
     } catch (error) {
-        console.error("Error en la cuarta llamada:", error);
+        api_calls4.innerHTML = "Error al eliminar el libro. Asegúrate de haber iniciado sesión correctamente.";
     }
 });
