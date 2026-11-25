@@ -20,8 +20,8 @@ btn_call0.addEventListener("click", async () => {
         });
         const data = await response.json();
         if (response.ok) {
-            localStorage.setItem("token", data);
-            api_calls0.innerHTML = "Inicio de sesión exitoso. Token almacenado en localStorage.";
+            sessionStorage.setItem("token", data);
+            api_calls0.innerHTML = "Inicio de sesión exitoso. Token almacenado en sessionStorage.";
         } else {
             api_calls0.innerHTML = `Error: ${data.detail}`;
         }
@@ -42,7 +42,7 @@ btn_call1.addEventListener("click", async () => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("token")}`
+                "Authorization": `Bearer ${sessionStorage.getItem("token")}`
             }
         });
         const data = await response.json();
@@ -70,7 +70,7 @@ btn_call2.addEventListener("click", async () => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("token")}`
+                "Authorization": `Bearer ${sessionStorage.getItem("token")}`
             },
             body: JSON.stringify({
                 titulo: tituloInput.value,
@@ -100,7 +100,7 @@ btn_call3.addEventListener("click", async () => {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("token")}`
+                "Authorization": `Bearer ${sessionStorage.getItem("token")}`
             },
             body: JSON.stringify({
                 anio: parseInt(anio_edit.value)
@@ -125,7 +125,7 @@ btn_call4.addEventListener("click", async () => {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("token")}`
+                "Authorization": `Bearer ${sessionStorage.getItem("token")}`
             },
         });
         const data = await response.json();

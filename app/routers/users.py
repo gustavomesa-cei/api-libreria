@@ -35,8 +35,9 @@ async def crear_usuario(datos: UserInput):
     finally:
         conn.close()
 
+    # Generar token JWT con la información del usuario recién creado y una fecha de expiración
     payload = nuevo_usuario.copy()
-    expiracion = datetime.now(timezone.utc) + timedelta(seconds=30)
+    expiracion = datetime.now(timezone.utc) + timedelta(minutes=30)
     payload.update({"exp": expiracion})
 
     return jwt.encode(payload, os.getenv("SECRET_KEY"), algorithm="HS256")
@@ -63,8 +64,9 @@ async def login_usuario(datos: UserInput):
     finally:
         conn.close()
 
+    # Generar token JWT con la información del usuario y una fecha de expiración
     payload = usuario.copy()
-    expiracion = datetime.now(timezone.utc) + timedelta(seconds=30)
+    expiracion = datetime.now(timezone.utc) + timedelta(minutes=30)
     payload.update({"exp": expiracion})
 
     return jwt.encode(payload, os.getenv("SECRET_KEY"), algorithm="HS256")
