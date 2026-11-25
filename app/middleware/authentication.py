@@ -10,7 +10,7 @@ try:
 except ImportError:
     pass
 
-PUBLIC_PATHS = {"/", "/users/login", "/docs", "/users/register"}
+PUBLIC_PATHS = {"/", "/users/login", "/users/register", "/docs", "/openapi.json"}
 
 class JWTAuthMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
